@@ -29,6 +29,7 @@ export default function Home() {
           Create a feedback board in minutes, build products your customers will
           love!
         </div>
+        <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
       </section>
 
       {/* Pricing */}
@@ -111,7 +112,11 @@ export default function Home() {
                 24/7 support
               </li>
             </ul>
-            <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
+            <ButtonLogin
+              isLoggedIn={isLoggedIn}
+              name={name}
+              extraStyle="w-full"
+            />
           </div>
         </div>
       </section>
