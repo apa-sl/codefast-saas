@@ -1,5 +1,5 @@
 import ButtonLogin from "@/components/ButtonLogin";
-import ListItem from "@/components/ListItem";
+import FAQListItem from "@/components/FAQListItem";
 
 export default function Home() {
   const isLoggedIn = true;
@@ -12,8 +12,12 @@ export default function Home() {
         <div className="flex justify-between items-center px-8 py-2 max-w-3xl mx-auto">
           <div className="font-bold">CodeFast SaaS</div>
           <nav className="space-x-4 max-md:hidden">
-            <a className="link link-hover">Pricing</a>
-            <a className="link link-hover">FAQ</a>
+            <a href="#pricing" className="link link-hover">
+              Pricing
+            </a>
+            <a href="#faq" className="link link-hover">
+              FAQ
+            </a>
           </nav>
           <div>
             <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
@@ -34,7 +38,7 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section className="bg-base-200">
+      <section id="pricing" className="bg-base-200">
         <div className="px-8 py-32 max-w-3xl mx-auto">
           <p className="text-sm uppercase font-medium text-primary text-center">
             Pricing
@@ -81,6 +85,31 @@ export default function Home() {
               extraStyle="w-full"
             />
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="bg-base-200">
+        <div className="px-8 py-32max-w-3xl mx-auto">
+          <p className="text-sm uppercase font-medium text-primary text-center">
+            FAQ
+          </p>
+          <h2 className="text-3xl lg:text-4xl font-extrabold mb-12 text-center">
+            Frequently Asked Questions
+          </h2>
+
+          <ul className="max-w-lg mx-auto">
+            {[
+              { question: "What do I get exactly?", answer: "Lorem Ipsum" },
+              { question: "Can I get a refund?", answer: "Lorem Ipsum" },
+              {
+                question: "What if I have some other question?",
+                answer: "Lorem Ipsum",
+              },
+            ].map((qa) => (
+              <FAQListItem key={qa.question} qa={qa} />
+            ))}
+          </ul>
         </div>
       </section>
     </main>
