@@ -1,5 +1,7 @@
 import ButtonLogin from "@/components/ButtonLogin";
 import FAQListItem from "@/components/FAQListItem";
+import Image from "next/image";
+import productDemo from "@/app/productDemo.jpeg";
 
 export default function Home() {
   const isLoggedIn = true;
@@ -9,7 +11,7 @@ export default function Home() {
     <main>
       {/* Header */}
       <header className="bg-base-200">
-        <div className="flex justify-between items-center px-8 py-2 max-w-3xl mx-auto">
+        <div className="flex justify-between items-center px-8 py-2 max-w-5xl mx-auto">
           <div className="font-bold">CodeFast SaaS</div>
           <nav className="space-x-4 max-md:hidden">
             <a href="#pricing" className="link link-hover">
@@ -26,15 +28,22 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="px-8 py-32 text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl lg:text-5xl font-extrabold mb-6">
-          Collect customer feedback to build better products
-        </h1>
-        <div className="opacity-80 mb-10">
-          Create a feedback board in minutes, build products your customers will
-          love!
+      <section className="px-8 py-32 text-center lg:text-left items-center lg:items-start max-w-5xl mx-auto flex flex-col lg:flex-row gap-14">
+        <Image
+          src={productDemo}
+          alt="Product Demo"
+          className="w-96 rounded-xl"
+        />
+        <div>
+          <h1 className="text-4xl lg:text-5xl font-extrabold mb-6">
+            Collect customer feedback to build better products
+          </h1>
+          <div className="opacity-80 mb-10">
+            Create a feedback board in minutes, build products your customers
+            will love!
+          </div>
+          <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
         </div>
-        <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
       </section>
 
       {/* Pricing */}
