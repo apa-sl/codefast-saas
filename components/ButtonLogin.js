@@ -1,18 +1,37 @@
-import Link from "next/link";
+"use client";
 
-const ButtonLogin = ({ isLoggedIn, name, extraStyle }) => {
-  if (isLoggedIn) {
+import Link from "next/link";
+import { signIn } from "next-auth/react"; /* importing from the package, not our auth.js as this is client component and do not want to disclosure secrets */
+
+const ButtonLogin = ({ session, extraStyle }) => {
+  const dashboardUrl = "/dashboard";
+
+  if (session) {
     return (
       <Link
-        href="/dashboard"
+        href={dashboardUrl}
         className={`btn btn-primary ${extraStyle ? extraStyle : ""}`}
       >
-        Hi {name} Dashboard
+        Welcome back {session.user.name || "friend"}
       </Link>
     );
   } else {
-    return <Link href="/dashboard">Login</Link>;
+    return (
+      <button
+        className={`btn btn-primary ${extraStyle ? extraStyle : ""}`}
+        onClick={() => {
+          signIn(undefined, { callbackUrl: dashboardUrl });
+        }}
+      >
+        Get started
+      </button>
+    );
   }
+  // 1. Create a /login page
+
+  // 2. Create an email/password form
+
+  // 3. Make a POST request to /api/login
 };
 
 export default ButtonLogin;

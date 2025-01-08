@@ -2,10 +2,10 @@ import ButtonLogin from "@/components/ButtonLogin";
 import FAQListItem from "@/components/FAQListItem";
 import Image from "next/image";
 import productDemo from "@/app/productDemo.jpeg";
+import { auth } from "@/auth";
 
-export default function Home() {
-  const isLoggedIn = true;
-  const name = "Adam";
+export default async function Home() {
+  const session = await auth();
 
   return (
     <main>
@@ -22,7 +22,7 @@ export default function Home() {
             </a>
           </nav>
           <div>
-            <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
+            <ButtonLogin session={session} />
           </div>
         </div>
       </header>
@@ -42,7 +42,7 @@ export default function Home() {
             Create a feedback board in minutes, build products your customers
             will love!
           </div>
-          <ButtonLogin isLoggedIn={isLoggedIn} name={name} />
+          <ButtonLogin session={session} />
         </div>
       </section>
 
@@ -88,18 +88,14 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <ButtonLogin
-              isLoggedIn={isLoggedIn}
-              name={name}
-              extraStyle="w-full"
-            />
+            <ButtonLogin session={session} extraStyle="w-full" />
           </div>
         </div>
       </section>
 
       {/* FAQ */}
       <section id="faq" className="bg-base-200">
-        <div className="px-8 py-32max-w-3xl mx-auto">
+        <div className="px-8 py-32 max-w-3xl mx-auto">
           <p className="text-sm uppercase font-medium text-primary text-center">
             FAQ
           </p>
