@@ -28,17 +28,23 @@ export async function POST(req) {
     const user = await User.findById(session.user.id);
 
     // create new board
-    Board.create({
+    const board = await Board.create({
       userId: user._id,
       name: body.name,
     });
 
     // add created board id to the user
+    console.log("User object before adding board:", user);
+    console.log("Board object before adding board:", board);
+    console.log("User boards before adding board:", user.boards);
+
     user.boards.push(board._id);
     await user.save();
 
     return NextResponse.json({});
   } catch (e) {
+    console.log("there was an error");
+    console.log(e);
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  board: [
+  boards: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Board",
