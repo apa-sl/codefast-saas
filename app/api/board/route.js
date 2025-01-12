@@ -5,6 +5,7 @@ import User from "@/models/User";
 import Board from "@/models/Board";
 
 export async function POST(req) {
+  console.log("api/board POST hitted");
   try {
     // check if user is authenticated
     const session = await auth();
@@ -34,17 +35,12 @@ export async function POST(req) {
     });
 
     // add created board id to the user
-    console.log("User object before adding board:", user);
-    console.log("Board object before adding board:", board);
-    console.log("User boards before adding board:", user.boards);
 
     user.boards.push(board._id);
     await user.save();
 
     return NextResponse.json({});
   } catch (e) {
-    console.log("there was an error");
-    console.log(e);
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

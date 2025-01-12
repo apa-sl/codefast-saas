@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, UseState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const FormNewBoard = () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,13 +19,12 @@ const FormNewBoard = () => {
 
     try {
       // 1. api call to create a new board
-      await fetch("/api/board", {
-        method: "POST",
-        body: JSON.stringify({ name }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const data = await axios.post("/api/board", { name });
+
+      setName(""); // clear the input field
+
+      router.refresh();
+
       // 2. redirect to the new board
     } catch (error) {
       // 1. display err msg
