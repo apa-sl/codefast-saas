@@ -29,9 +29,9 @@ const FormNewBoard = () => {
       toast.success("Board created");
       // 2. redirect to the new board
     } catch (error) {
-      // 1. display err msg (1st check api err from axios, then try cath error, then fallback generic)
+      // 1. display err msg (1st check api err from axios, then try cath error, then fallback generic). In 1st added js optional chaining operator so whole app will not crash when tehre is no reponse nor data due to e.g. lack of internet connection
       const errorMessage =
-        error.response.data.error || error.message || "Something went wrong";
+        error.response?.data?.error || error.message || "Something went wrong";
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
