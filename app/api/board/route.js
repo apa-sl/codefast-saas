@@ -44,3 +44,38 @@ export async function POST(req) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
+export async function DELETE(req) {
+  try {
+    const searchParams = req.nextUrl.searchParams;
+    const boardId = searchParams.get("boardId");
+
+    // check if user is authenticated
+    const session = await auth();
+    if (!session) {
+      return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+    }
+
+    // check if boardId is provided
+    if (!boardId) {
+      return NextResponse.json(
+        { error: "Board ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // remove board from DB
+    await Board.deleteOne({
+      _id: boardId,
+      userId: session?.user?.id,
+    });
+
+    // iterate through the user.boards array and remove the boardId
+    const user = await User.findById(session?.user?.id);
+    user.boards = user.boards.filter((id) => id.toString() !== boardId);
+    await user.save();
+    return NextResponse.json({});
+  } catch (e) {
+    return NextResponse.son({ error: e.message }, { status: 500 });
+  }
+}

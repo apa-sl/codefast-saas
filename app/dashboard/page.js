@@ -1,3 +1,6 @@
+// force refesh
+export const dynamic = "force-dynamic";
+
 import ButtonLogout from "@/components/ButtonLogout";
 import FormNewBoard from "@/components/FormNewBoard";
 import { auth } from "@/auth";
@@ -11,7 +14,7 @@ async function getUser() {
 
   await connectMongoDB();
 
-  const user = await User.findById(session.user.id).populate("boards");
+  const user = await User.findById(session.user.id).populate("boards").lean();
 
   return user;
 }
