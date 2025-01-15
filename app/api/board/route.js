@@ -5,7 +5,6 @@ import User from "@/models/User";
 import Board from "@/models/Board";
 
 export async function POST(req) {
-  console.log("api/board POST hitted");
   try {
     // check if user is authenticated
     const session = await auth();
@@ -27,6 +26,14 @@ export async function POST(req) {
 
     // get logged in user id
     const user = await User.findById(session.user.id);
+
+    // check if user has subscription
+    if (!user.hasAccess) {
+      return NextResponse.json(
+        { error: "Please subscribe first" },
+        { status: 403 }
+      );
+    }
 
     // create new board
     const board = await Board.create({
@@ -64,6 +71,15 @@ export async function DELETE(req) {
       );
     }
 
+    const user = await User.findById(session?.user?.id);
+
+    // check if user has subscription
+    if (!user.hasAccess) {
+      return NextResponse.json(
+        { error: "Please subscribe first" },
+        { status: 403 }
+      );
+    }
     // remove board from DB
     await Board.deleteOne({
       _id: boardId,
@@ -71,9 +87,9 @@ export async function DELETE(req) {
     });
 
     // iterate through the user.boards array and remove the boardId
-    const user = await User.findById(session?.user?.id);
     user.boards = user.boards.filter((id) => id.toString() !== boardId);
     await user.save();
+
     return NextResponse.json({});
   } catch (e) {
     return NextResponse.son({ error: e.message }, { status: 500 });

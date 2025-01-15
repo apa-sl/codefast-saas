@@ -2,6 +2,8 @@
 export const dynamic = "force-dynamic";
 
 import ButtonLogout from "@/components/ButtonLogout";
+import ButtonCheckout from "@/components/ButtonCheckout";
+import ButtonSubscriptionPortal from "@/components/ButtonSubscriptionPortal";
 import FormNewBoard from "@/components/FormNewBoard";
 import { auth } from "@/auth";
 import connectMongoDB from "@/libs/mongoose";
@@ -26,7 +28,8 @@ export default async function Dashboard() {
     <main className="bg-base-200 min-h-screen">
       {/* Header */}
       <section className="bg-base-100">
-        <div className="bg-base-100 px-5 py-3 flex justify-end max-w-5xl mx-auto">
+        <div className="bg-base-100 px-5 py-3 flex justify-between max-w-5xl mx-auto">
+          {user.hasAccess ? <ButtonSubscriptionPortal /> : <ButtonCheckout />}
           <ButtonLogout />
         </div>
       </section>

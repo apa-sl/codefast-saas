@@ -20,7 +20,7 @@ const ButtonBoardDelete = ({ boardId }) => {
         // forward user to the dashboard
         router.push("/dashboard");
       }
-    } catch (e) {
+    } catch (error) {
       const errorMessage =
         error.response?.data?.error || error.message || "Something went wrong";
       toast.error(errorMessage);
