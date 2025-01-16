@@ -1,12 +1,14 @@
 import { redirect } from "next/navigation";
 import connectMongoDB from "@/libs/mongoose";
 import Board from "@/models/Board";
+import Post from "@/models/Post";
 import { auth } from "@/auth";
 import Link from "next/link";
 import CardBoardLink from "@/components/CardBoardLink";
+import CardPostAdmin from "@/components/CardPostAdmin";
 import ButtonBoardDelete from "@/components/ButtonBoardDelete";
 
-const getBoard = async (boardId) => {
+const getData = async (boardId) => {
   const session = await auth();
   await connectMongoDB();
 
@@ -20,14 +22,16 @@ const getBoard = async (boardId) => {
     redirect("/dashboard");
   }
 
-  return board;
+  const posts = await Post.find({ boardId }).sort({ createdAt: -1 });
+
+  return { board, posts };
 };
 
 export default async function FeedbackBoard(props) {
   const boardId = props.params.boardId;
 
   // get board with ObjectId = boardId
-  const board = await getBoard(boardId);
+  const { board, posts } = await getData(boardId);
 
   return (
     <main className="bg-base-200 min-h-screen">
@@ -52,10 +56,19 @@ export default async function FeedbackBoard(props) {
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-5 py-12 space-y-12">
-        <h1 className="font-extrabold text-xl mb-4">{board.name} (admin)</h1>
-        <CardBoardLink boardId={board._id.toString()} />
-        <ButtonBoardDelete boardId={board._id.toString()} />
+      <section className="max-w-5xl mx-auto px-5 py-12 flex flex-col md:flex-row gap-12">
+        <div className="space-y-8">
+          <h1 className="font-extrabold text-xl mb-4">{board.name} (admin)</h1>
+          <CardBoardLink boardId={board._id.toString()} />
+          <ButtonBoardDelete boardId={board._id.toString()} />
+        </div>
+        <div>
+          <ul className="space-y-4">
+            {posts.map((post) => (
+              <CardPostAdmin key={post._id} post={post} />
+            ))}
+          </ul>
+        </div>
       </section>
     </main>
   );

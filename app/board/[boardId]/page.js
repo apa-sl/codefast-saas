@@ -44,3 +44,47 @@ export default async function PublicFeedbackBoard(props) {
     </main>
   );
 }
+
+export async function DELETE(req) {
+  try {
+    const { searchParams } = req.nextUrl;
+    const postId = searchParams.get("postId");
+
+    // check if user is logged in
+    const session = await auth();
+
+    // check if user has subscription
+    await connectMongoDB();
+
+    if (!user.hasAccess) {
+      return NextResponse.json(
+        { error: "Please subscribe first" },
+        { status: 403 }
+      );
+    }
+
+    // check if user is the owner of the board with deleted post
+    const post = await Post.findById(postId);
+    //// check if post exists
+    if (!post) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    if (!user.boards.includes(post.PostId.toString())) {
+      return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+    }
+
+    // check if required data is provided
+    if (!postId) {
+      return NextResponse.json(
+        { error: "postId is required" },
+        { status: 400 }
+      );
+    }
+
+    // delete post
+    await Post.deleteOne({ _id: postId });
+
+    return NextResponse.json({ message: "Post deleted" });
+  } catch (e) {}
+}
