@@ -48,7 +48,7 @@ const ButtonVote = ({ postId, initialVotesCounter }) => {
       className={`group border px-4 py-2 rounded-xl text-lg duration-200 ${
         hasVoted
           ? "bg-primary text-primary-content border-transparent"
-          : "bg-base-100 text-base-content hover:border-base-content/25 "
+          : "bg-base-100 text-base-content hover:border-base-content/25"
       }`}
       onClick={handleVote}
     >
@@ -66,7 +66,6 @@ const ButtonVote = ({ postId, initialVotesCounter }) => {
           d="m4.5 15.75 7.5-7.5 7.5 7.5"
         />
       </svg>
-
       <div>{votesCounter}</div>
     </button>
   );
